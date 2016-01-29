@@ -19,3 +19,20 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActionDispatch::IntegrationTest.fixture_path = ActiveSupport::TestCase.fixture_path
   ActiveSupport::TestCase.fixtures :all
 end
+
+
+def contents(sym=nil)
+  if sym
+    return content_manager_contents(sym.to_sym)
+  else
+    ContentManager::Content.all
+  end
+end
+
+def views(sym=nil)
+  if sym
+    return content_manager_views(sym.to_sym)
+  else
+    ContentManager::View.all
+  end
+end

@@ -42,5 +42,12 @@ module ContentManager
                       view: content.current_view)
       assert_equal content.test, test_value
     end
+
+    test 'no exception raised if when calling key if default supplied' do
+      TestContent.class_eval { content_key :test, default: "test" }
+
+      content = TestContent.new(version: 0)
+      content.test
+    end
   end
 end

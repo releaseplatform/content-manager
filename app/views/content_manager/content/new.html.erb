@@ -2,9 +2,21 @@
 <h2>New Content</h2>
 
 <%= form_for @content, url: { action: 'create' } do |f|  %>
-  <%= f.fields_for :data do |d|%>
-    <% @view.to_constant.content_keys.each do |key| %>
-      <%= d.text_field key.to_sym %>
+  <div>
+    <%= f.label :version do %>
+      version:
+      <%= f.text_field :version %>
     <% end %>
-  <% end %>
+  </div>
+  <div>
+    <%= f.fields_for :data do |d|%>
+      <% @view.to_constant.content_keys.each do |key| %>
+        <%= d.label key do %>
+          <%= key %>:
+          <%= d.text_field key.to_sym %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  <%= f.submit 'Create' %>
 <% end %>

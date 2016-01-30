@@ -34,10 +34,16 @@ module ContentManager
       @content_keys ||= []
     end
 
-    def self.content_key(key)
+    def self.content_key(key, options={})
       content_keys << key
       define_method(key) do
-        current_view.contents.find_by(version: @version).data[key.to_s]
+        if content = current_view.contents.find_by(version: @version)
+          content.data[key.to_s]
+        elsif content = options[:default]
+          content
+        else
+          raise "No value for view: #{current_view.name}, version: #{@version}, key: #{key}"
+        end
       end
     end
 

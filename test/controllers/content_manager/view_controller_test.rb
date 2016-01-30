@@ -11,11 +11,6 @@ module ContentManager
       assert_equal assigns(:views), views()
     end
 
-    test 'view with is available on show' do
-      get :show, id: views(:one)
-      assert_equal assigns(:view), views(:one)
-    end
-
     test 'view is available on edit' do
       get :edit, id: views(:one)
       assert_equal assigns(:view), views(:one)

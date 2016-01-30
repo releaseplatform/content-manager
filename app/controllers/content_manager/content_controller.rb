@@ -4,6 +4,10 @@ module ContentManager
   class ContentController < ApplicationController
     before_action :current_view
 
+    def index
+      @contents = current_view.contents
+    end
+
     def show
       @content = @view.contents.find(params[:id])
     end
@@ -15,7 +19,7 @@ module ContentManager
     def create
       @content = current_view.contents.new(content_params)
       if @content.save
-        redirect_to view_path(current_view)
+        redirect_to view_content_index_path(current_view)
       else
         redirect_to :new, notice: "Content creation failed!"
       end

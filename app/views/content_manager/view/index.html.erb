@@ -1,8 +1,8 @@
 <table border="0" cellspacing="5" cellpadding="5">
-  <tr><th>Name</th></tr>
+  <tr><th><%= @content.view_name_title %></th></tr>
   <% @views.each do |v| %>
     <tr>
-      <td><%= link_to v.name, view_path(v) %></td>
+      <td><%= link_to v.name, view_content_index_path(v) %></td>
     </tr>
   <% end %>
 </table>

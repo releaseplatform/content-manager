@@ -1,0 +1,10 @@
+<h1><%= @view.name %> Content</h1>
+<span>version: <%= @content.version %></span>
+<h2>Content Keys</h2>
+
+<table border="0" cellspacing="5" cellpadding="5">
+  <tr><td>Key</td><td>Key</td></tr>
+<% @content.data.each do |key, value|%>
+  <tr><td><%= key %></td><td><%= value %></td></tr>
+<% end %>
+</table>

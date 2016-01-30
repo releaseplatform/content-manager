@@ -2,10 +2,10 @@
 
 one:
   version: 1
-  data: MyText
+  data: "{}"
   view: two
 
 two:
   version: 1
-  data: MyText
+  data: "{}"
   view: two

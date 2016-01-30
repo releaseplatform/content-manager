@@ -4,20 +4,27 @@ module ContentManager
   class ContentBaseTest < ActiveSupport::TestCase
 
     setup do
-      TestContent = Class.new ContentBase
+      class TestContent < ContentBase; end
     end
 
     teardown do
-      remove_const :test_content
+      delete_constant(:TestContent)
     end
 
-    test 'derive view name from subclass' do
-      assert_equal TestContent.view_name, 'test'
+    def delete_constant(symbol)
+      ContentBaseTest.send(:remove_const, symbol.to_sym)
     end
 
-    test 'when included a view record is created' do
+    test 'when inherited a view record is created' do
       assert_difference 'ContentManager::View.count' do
-        Class.new ContentBase
+        class AnotherTestContent < ContentBase; end
+      end
+    end
+
+    test 'if a view record exists it is used' do
+      assert_no_difference 'ContentManager::View.count' do
+        delete_constant(:TestContent)
+        class TestContent < ContentBase; end
       end
     end
 
@@ -25,6 +32,15 @@ module ContentManager
       assert_difference  'TestContent.content_keys.length' do
         TestContent.content_key :test_key
       end
+    end
+
+    test 'content.<key> on instance returns stored value at <key>' do
+      test_value = "this is a test"
+      TestContent.class_eval { content_key :test }
+      content = TestContent.new(version: 0)
+      Content.create!(version: 0, data: { test: test_value },
+                      view: content.current_view)
+      assert_equal content.test, test_value
     end
   end
 end

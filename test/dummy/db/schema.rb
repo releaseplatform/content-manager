@@ -11,22 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160129172028) do
+ActiveRecord::Schema.define(version: 20160130210006) do
 
   create_table "content_manager_contents", force: :cascade do |t|
     t.integer  "version"
-    t.text     "data"
+    t.text     "data",       default: "{}"
     t.integer  "view_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "content_manager_contents", ["view_id"], name: "index_content_manager_contents_on_view_id"
 
   create_table "content_manager_views", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "constant_name", default: "", null: false
   end
 
 end

@@ -1,0 +1,5 @@
+<h1><%= @view.name %></h1>
+<h2>Content Versions</h2>
+<% @view.contents.each do |c| %>
+  <h3><%= c.id.to_s %></h3>
+<% end %>

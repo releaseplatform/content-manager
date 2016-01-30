@@ -1,7 +1,5 @@
 ContentManager::Engine.routes.draw do
-  controller :view do
-    get '/' => :index
-    get '/:id' => :show
-    get '/:id/edit' => :edit
+  resources :view, only: [:index, :show, :edit, :update] do
+    resources :content
   end
 end

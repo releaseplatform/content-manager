@@ -1,0 +1,8 @@
+<table border="0" cellspacing="5" cellpadding="5">
+  <tr><th>Name</th></tr>
+  <% @views.each do |v| %>
+    <tr>
+      <td><%= link_to v.name, view_path(v) %></td>
+    </tr>
+  <% end %>
+</table>

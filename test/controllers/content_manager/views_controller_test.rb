@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module ContentManager
-  class ViewControllerTest < ActionController::TestCase
+  class ViewsControllerTest < ActionController::TestCase
     setup do
       @routes = Engine.routes
     end

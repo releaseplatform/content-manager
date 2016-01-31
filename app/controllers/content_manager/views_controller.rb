@@ -1,7 +1,7 @@
 require_dependency "content_manager/application_controller"
 
 module ContentManager
-  class ViewController < ApplicationController
+  class ViewsController < ApplicationController
     def index
       @content = ViewIndexContent.new(version: 0)
       @views = View.all

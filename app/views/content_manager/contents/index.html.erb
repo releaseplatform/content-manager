@@ -4,7 +4,14 @@
   <span><%= key %> </span>
 <% end %>
 <h2>Content Versions</h2>
+<ul>
 <% @contents.each do |c| %>
-  <%= link_to c.version.to_s, view_content_path(@view, c) %>
+  <li>
+    <%= link_to c.version.to_s, view_content_path(@view, c) %>
+    <%= link_to 'Destroy', view_content_path(@view, c), method: :delete %>
+    <%= link_to 'Edit', edit_view_content_path(@view, c) %>
+  </li>
 <% end %>
+</ul>
+
 <%= link_to 'New', new_view_content_path(@view) %>

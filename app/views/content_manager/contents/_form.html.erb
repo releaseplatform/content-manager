@@ -1,7 +1,4 @@
-<h1><%= @view.name %> Content</h1>
-<h2>New Content</h2>
-
-<%= form_for @content, url: { action: 'create' } do |f|  %>
+<%= form_for [@view, @content] do |f|  %>
   <div>
     <%= f.label :version do %>
       version:
@@ -13,10 +10,10 @@
       <% @view.to_constant.content_keys.each do |key| %>
         <%= d.label key do %>
           <%= key %>:
-          <%= d.text_field key.to_sym %>
+          <%= d.text_field key.to_sym, value: @content.data[key.to_s] %>
         <% end %>
       <% end %>
     <% end %>
   </div>
-  <%= f.submit 'Create' %>
+  <%= f.submit 'Submit' %>
 <% end %>

@@ -1,17 +1,17 @@
 <h1><%= @view.name %></h1>
-<h2>Content Keys</h2>
+<h2><%= @content.keys_title %></h2>
 <% @view.to_constant.content_keys.each do |key| %>
   <span><%= key %> </span>
 <% end %>
-<h2>Content Versions</h2>
+<h2><%= @content.versions_title %></h2>
 <ul>
 <% @contents.each do |c| %>
   <li>
     <%= link_to c.version.to_s, view_content_path(@view, c) %>
-    <%= link_to 'Destroy', view_content_path(@view, c), method: :delete %>
-    <%= link_to 'Edit', edit_view_content_path(@view, c) %>
+    <%= link_to @content.destroy_button, view_content_path(@view, c), method: :delete %>
+    <%= link_to @content.edit_button, edit_view_content_path(@view, c) %>
   </li>
 <% end %>
 </ul>
 
-<%= link_to 'New', new_view_content_path(@view) %>
+<%= link_to @content.new_button, new_view_content_path(@view) %>

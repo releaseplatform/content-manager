@@ -6,6 +6,7 @@ module ContentManager
     before_action :current_content, only: [:show, :destroy, :edit, :update]
 
     def index
+      @content = ContentsIndexContent.new(version: 0)
       @contents = current_view.contents
     end
 

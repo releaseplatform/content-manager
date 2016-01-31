@@ -51,6 +51,10 @@ module ContentManager
       @version = options[:version]
     end
 
+    def method_missing(name, *args, &block)
+      raise "No value for view: #{current_view.name}, version: #{@version}, key: #{name}"
+    end
+
     def self.current_view
       View.find_by_name(view_name(self))
     end

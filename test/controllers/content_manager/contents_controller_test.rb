@@ -4,7 +4,9 @@ module ContentManager
   class ContentsControllerTest < ActionController::TestCase
     setup do
       @routes = Engine.routes
-      class TestContent < ContentBase; end
+      class TestContent < ContentBase;
+        content_key :test
+      end
     end
 
     teardown do
@@ -47,12 +49,12 @@ module ContentManager
       assert_equal assigns(:content), view.contents.first
     end
 
-    test 'should update view content with data' do
+    test 'should update content record with data' do
       updated_text = "this is an upate" 
       view = TestContent.current_view
-      view.contents.create!
-      put :update, view_id: view.id, id: view.contents.first.id, content: { data: { test: updated_text } } 
-      assert_equal view.contents.first.data['test'], updated_text
+      view.contents.create!(data: { test: "test" })
+      patch :update, view_id: view.id, id: view.contents.first.id, content: { data: { test: updated_text } } 
+      assert_equal updated_text, view.contents.first.data['test']
     end
   end
 end

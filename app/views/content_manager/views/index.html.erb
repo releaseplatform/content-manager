@@ -1,5 +1,5 @@
 <table border="0" cellspacing="5" cellpadding="5">
-  <tr><th><%= @content.view_name_title %></th></tr>
+  <tr><th><%= cm :view_name_title %></th></tr>
   <% @views.each do |v| %>
     <tr>
       <td><%= link_to v.name, view_contents_path(v) %></td>

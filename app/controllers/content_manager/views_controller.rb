@@ -3,12 +3,10 @@ require_dependency "content_manager/application_controller"
 module ContentManager
   class ViewsController < ApplicationController
     def index
-      @content = ViewIndexContent.new(version: 0)
       @views = View.all
     end
 
     def show
-      @content = ViewShowContent.new(version: 0)
       @view = View.find(params[:id])
     end
 

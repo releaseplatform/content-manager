@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ContentManager::VERSION
   s.authors     = ["Jasper Lyons"]
   s.email       = ["jasper.lyons@gmail.com"]
-  s.homepage    = "TODO"
+  s.homepage    = "content-manager.github.io"
   s.summary     = "A super light weight, content manager for developers."
   s.description = "Define groups of content, views, and versions of that content that can be swapped out at runtime. The driving force behind this was allowing customers to be able to update the copy on their pages and for us to A/B test versions fo that copy for them."
   s.license     = "MIT"

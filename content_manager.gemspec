@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jasper Lyons"]
   s.email       = ["jasper.lyons@gmail.com"]
   s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of ContentManager."
-  s.description = "TODO: Description of ContentManager."
+  s.summary     = "A super light weight, content manager for developers."
+  s.description = "Define groups of content, views, and versions of that content that can be swapped out at runtime. The driving force behind this was allowing customers to be able to update the copy on their pages and for us to A/B test versions fo that copy for them."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]

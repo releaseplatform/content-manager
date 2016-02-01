@@ -3,7 +3,7 @@ class CreateContentManagerContents < ActiveRecord::Migration
     create_table :content_manager_contents do |t|
       t.integer :version
       t.text :data
-      t.references :view, index: true, foreign_key: true
+      t.references :view, references: :content_manager_views, index: true, foreign_key: true
 
       t.timestamps null: false
     end

@@ -49,5 +49,14 @@ module ContentManager
       content = TestContent.new(version: 0)
       content.test
     end
+
+    test 'when name is set in class, view model is saved with name provided' do
+      # can't use local variable because of weird ruby class evaulation issues?
+      class NewTestContent < ContentBase
+        content_alias 'LandingPage'
+      end
+
+      assert_equal NewTestContent.current_view.name, 'LandingPage'
+    end
   end
 end

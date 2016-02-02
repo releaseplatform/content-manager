@@ -25,7 +25,7 @@ module ContentManager
         # inform user that inherited class cannot be anonymous
         View.find_or_create_by!({
           name: view_name(base),
-          constant_name: base.name
+          constant_name: base.name 
         })
       end
     end
@@ -47,6 +47,10 @@ module ContentManager
       end
     end
 
+    def self.content_alias(name)
+      current_view.update(name: name.to_s)
+    end
+
     def initialize(options)
       @version = options[:version]
     end
@@ -56,7 +60,7 @@ module ContentManager
     end
 
     def self.current_view
-      View.find_by_name(view_name(self))
+      View.find_by_constant_name(self.name)
     end
     
     def current_view

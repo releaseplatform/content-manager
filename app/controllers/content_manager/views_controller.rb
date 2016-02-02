@@ -7,7 +7,7 @@ module ContentManager
       if ContentManager.show_internal_content
         @views = View.all
       else
-        @views = View.where.not("constant_name LIKE ContentManager%")
+        @views = View.where.not("constant_name LIKE 'ContentManager%'")
       end
     end
 

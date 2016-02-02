@@ -1,17 +1,26 @@
 <h1><%= @view.name %></h1>
-<h2><%= @content.keys_title %></h2>
+
+<span><b><%= @content.keys_title %>:</b></span>
 <% @view.to_constant.content_keys.each do |key| %>
   <span><%= key %> </span>
 <% end %>
-<h2><%= @content.versions_title %></h2>
-<ul>
-<% @contents.each do |c| %>
-  <li>
-    <%= link_to c.version.to_s, view_content_path(@view, c) %>
-    <%= link_to @content.destroy_button, view_content_path(@view, c), method: :delete %>
-    <%= link_to @content.edit_button, edit_view_content_path(@view, c) %>
-  </li>
-<% end %>
-</ul>
+<hr>
 
-<%= link_to @content.new_button, new_view_content_path(@view) %>
+<table>
+  <thead>
+    <tr>
+      <th colspan="1"><h3><%= @content.versions_title %></h3></th>
+      <th colspan="1"><%= link_to @content.new_button, new_view_content_path(@view) %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contents.each do |c| %>
+      <tr>
+        <td><%= link_to c.version.to_s, view_content_path(@view, c) %></td>
+        <td><%= link_to @content.destroy_button, view_content_path(@view, c), method: :delete %></td>
+        <td><%= link_to @content.edit_button, edit_view_content_path(@view, c) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

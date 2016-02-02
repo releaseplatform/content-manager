@@ -5,15 +5,26 @@
       <%= f.text_field :version %>
     <% end %>
   </div>
-  <div>
-    <%= f.fields_for :data do |d|%>
-      <% @view.to_constant.content_keys.each do |key| %>
-        <%= d.label key do %>
-          <%= key %>:
-          <%= d.text_field key.to_sym, value: @content.data[key.to_s] %>
+
+  <br>
+
+  <fieldset>
+    <legend><%= cm :form_legend %></legend>
+    <div>
+      <%= f.fields_for :data do |d|%>
+        <% @view.to_constant.content_keys.each do |key| %>
+          <div>
+            <%= d.label key do %>
+              <%= key %>:
+              <%= d.text_area key.to_sym, value: @content.data[key.to_s], rows: 1, cols: 80 %>
+            <% end %>
+          </div>
         <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  </fieldset>
+
+  <br>
+
   <%= f.submit cm :form_submit %>
 <% end %>

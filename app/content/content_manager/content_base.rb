@@ -60,7 +60,7 @@ module ContentManager
     end
 
     def self.current_view
-      View.find_by_constant_name(self.name)
+      View.find_by!(constant_name: self.name)
     end
     
     def current_view

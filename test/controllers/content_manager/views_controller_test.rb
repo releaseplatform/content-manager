@@ -4,6 +4,7 @@ module ContentManager
   class ViewsControllerTest < ActionController::TestCase
     setup do
       @routes = Engine.routes
+      ContentManager.show_internal_content = true
     end
 
     test 'all view should be available on index' do

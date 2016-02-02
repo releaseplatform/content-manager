@@ -3,7 +3,12 @@ require_dependency "content_manager/application_controller"
 module ContentManager
   class ViewsController < ApplicationController
     def index
-      @views = View.all
+      # this is the ideal place for a presenter
+      if ContentManager.show_internal_content
+        @views = View.all
+      else
+        @views = View.where.not(constant_name: "ContentManager%")
+      end
     end
 
     def show

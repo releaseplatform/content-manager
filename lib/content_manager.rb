@@ -8,6 +8,9 @@ module ContentManager
   # Should the internal content presenters be displayed in the admin view?
   mattr_accessor :show_internal_content
 
+  # should the views supplied be wrapper in a layout?
+  mattr_accessor :layout
+
   def self.configure(&block)
     yield self unless block.nil? 
   end

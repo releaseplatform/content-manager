@@ -2,6 +2,7 @@ module ContentManager
   module ApplicationHelper
     # a helper to automatically figure out where to get you're content from
     def cm(key)
+      puts "Searching for key: #{key}"
       content_instance.public_send(key.to_sym)
     end
 
@@ -15,10 +16,14 @@ module ContentManager
     # TODO: This is hard, even rails does it wrong, need a better solution
     def content_class
       # ensure constant is loaded
+      puts "Looking for Constant: #{constant_name}"
+      puts "Looking for File: #{constant_file_path}"
       if file_path = constant_file_path
+        puts "Found file: #{file}"
         require_dependency file_path
         constant_name.classify.constantize
       else
+        puts "Looking for Constant #{"content_manager/#{constant_name}".classify}"
         begin
           return "content_manager/#{constant_name}".classify.constantize
         rescue NameError

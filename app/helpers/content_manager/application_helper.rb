@@ -19,7 +19,7 @@ module ContentManager
       puts "Looking for Constant: #{constant_name}"
       puts "Looking for File: #{constant_file_path}"
       if file_path = constant_file_path
-        puts "Found file: #{file}"
+        puts "Found file: #{file_path}"
         require_dependency file_path
         constant_name.classify.constantize
       else

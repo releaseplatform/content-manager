@@ -16,14 +16,13 @@ module ContentManager
     # TODO: This is hard, even rails does it wrong, need a better solution
     def content_class
       # ensure constant is loaded
-      puts "Looking for Constant: #{constant_name}"
-      puts "Looking for File: #{constant_file_path}"
-      if file_path = constant_file_path
-        puts "Found file: #{file_path}"
+      if Object.const_defined?(constant_name)
+        constant_name.classify.constantize
+      elsif file_path = constant_file_path
+        # This will not load class in module properly
         require_dependency file_path
         constant_name.classify.constantize
       else
-        puts "Looking for Constant #{"content_manager/#{constant_name}".classify}"
         begin
           return "content_manager/#{constant_name}".classify.constantize
         rescue NameError
@@ -33,7 +32,8 @@ module ContentManager
     end
 
     def constant_file_path
-      Dir["#{Rails.root}/**/#{constant_name}.rb"].first
+      # needs to be limited to app and lib dir's because Heroku puts gem content in vendor
+      Dir["#{Rails.root}/{app,lib}/**/#{constant_name}.rb"].first
     end
 
     # the default for constants will be ControllerActionContent

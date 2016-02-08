@@ -20,12 +20,13 @@ module ContentManager
     def content_view(view_name, &block)
       # scope a block to a content view via a proxy view
       template = block.binding.eval('self')
-      Proxy.new(template) do |proxy|
+      proxy = Proxy.new(template) do |proxy|
         proxy.define_singleton_method(:cm) do |key|
           content_instance(view_name.to_s).public_send(key.to_sym)
         end
-        proxy.instance_eval(&block)
       end
+      # return a template
+      template.concat(proxy.instance_eval(&block))
     end
 
     private

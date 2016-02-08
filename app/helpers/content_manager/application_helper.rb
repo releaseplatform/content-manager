@@ -35,9 +35,9 @@ module ContentManager
         constant_class.constantize
       else
         begin
-          return "content_manager/#{constant_name}".classify.constantize
+          return "content_manager/#{constant_class}".classify.constantize
         rescue NameError
-          raise "Couldn't find constant definition #{constant_name}, it should be in a file called #{constant_name}.rb"
+          raise "Couldn't find constant definition #{name || constant_name}, it should be in a file called #{name || constant_name}.rb"
         end
       end
     end

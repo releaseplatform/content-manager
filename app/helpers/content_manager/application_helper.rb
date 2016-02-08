@@ -1,3 +1,15 @@
+# Rubies SimpleDelegator doesn't seem to work
+# for this usecase? TODO: Explore more.
+class Proxy
+  def initialize(delegate, &block)
+    @delegate = delegate
+    yield self unless block.nil?
+  end
+  def method_missing(op, *args, &block)
+    @delegate.send(op, *args, &block) 
+  end
+end
+
 module ContentManager
   module ApplicationHelper
     # a helper to automatically figure out where to get you're content from
@@ -6,14 +18,14 @@ module ContentManager
     end
 
     def content_view(view_name, &block)
-      # pretend to be a rails controller
-      view = block.binding.eval('self')
-      view.class.class_eval do
-        define_method(:cm) { |key|
+      # scope a block to a content view via a proxy view
+      template = block.binding.eval('self')
+      Proxy.new(template) do |proxy|
+        proxy.define_singleton_method(:cm) do |key|
           content_instance(view_name.to_s).public_send(key.to_sym)
-        }
+        end
+        proxy.instance_eval(&block)
       end
-      block.call
     end
 
     private
@@ -26,7 +38,8 @@ module ContentManager
     # TODO: This is hard, even rails does it wrong, need a better solution
     def content_class(name=nil)
       # ensure constant is loaded
-      constant_class = (name || constant_name).classify
+      name = name || constant_name
+      constant_class = name.classify
       if Object.const_defined?(constant_class)
         constant_class.constantize
       elsif file_path = constant_file_path(name)
@@ -35,9 +48,9 @@ module ContentManager
         constant_class.constantize
       else
         begin
-          return "content_manager/#{constant_class}".classify.constantize
+          return "content_manager/#{name}".classify.constantize
         rescue NameError
-          raise "Couldn't find constant definition #{name || constant_name}, it should be in a file called #{name || constant_name}.rb"
+          raise "Couldn't find constant definition #{name}, it should be in a file called #{name}.rb"
         end
       end
     end
@@ -51,11 +64,7 @@ module ContentManager
     # the default for constants will be ControllerActionContent
     def constant_name
       # extend the controller api, this could probably be simpler
-      if controller.respond_to?(:content_name)
-        controller.content_name
-      else
-        "#{controller.controller_name}_#{controller.action_name}_content"
-      end
+      "#{controller.controller_name}_#{controller.action_name}_content"
     end
   end
 end

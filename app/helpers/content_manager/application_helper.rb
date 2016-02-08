@@ -5,22 +5,33 @@ module ContentManager
       content_instance.public_send(key.to_sym)
     end
 
+    def content_view(key, &block)
+      # pretend to be a rails controller
+      Class.new {
+        extend ApplicationHelper
+        define_method(:content_name) { key.to_s }
+        define_singleton_method(:controller) { self.new }
+      }.instance_eval(&block)
+    end
+
     private
 
-    def content_instance
+    def content_instance(name=nil)
       #TODO:  defaults to verrsion 0, need to allow specifying default
-      @content_instance = content_class.new(version: 0)
+      puts content_class(name)
+      @content_instance = content_class(name).new(version: 0)
     end
 
     # TODO: This is hard, even rails does it wrong, need a better solution
-    def content_class
+    def content_class(name=nil)
       # ensure constant is loaded
-      if Object.const_defined?(constant_name.classify)
-        constant_name.classify.constantize
-      elsif file_path = constant_file_path
+      constant_class = (name || constant_name).classify
+      if Object.const_defined?(constant_class)
+        constant_class.constantize
+      elsif file_path = constant_file_path(name)
         # This will not load class in module properly
         require_dependency file_path
-        constant_name.classify.constantize
+        constant_class.constantize
       else
         begin
           return "content_manager/#{constant_name}".classify.constantize
@@ -30,14 +41,20 @@ module ContentManager
       end
     end
 
-    def constant_file_path
-      # needs to be limited to app and lib dir's because Heroku puts gem content in vendor
-      Dir["#{Rails.root}/{app,lib}/**/#{constant_name}.rb"].first
+    # needs to be limited to app and lib dir's because
+    # Heroku puts gem content in vendor
+    def constant_file_path(name=nil)
+      Dir["#{Rails.root}/{app,lib}/**/#{name || constant_name}.rb"].first
     end
 
     # the default for constants will be ControllerActionContent
     def constant_name
-      "#{controller.controller_name}_#{controller.action_name}_content"
+      # extend the controller api, this could probably be simpler
+      if controller.respond_to?(:content_name)
+        controller.content_name
+      else
+        "#{controller.controller_name}_#{controller.action_name}_content"
+      end
     end
   end
 end

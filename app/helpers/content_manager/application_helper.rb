@@ -7,9 +7,12 @@ module ContentManager
 
     def content_view(view_name, &block)
       # pretend to be a rails controller
-      block.binding.local_variable_set(:cm, lambda { |key|
-        content_instance(view_name).public_send(key.to_sym) 
-      })
+      view = block.binding.eval('self')
+      view.class.class_eval do
+        define_method(:cm) { |key|
+          content_instance(view_name.to_s).public_send(key.to_sym)
+        }
+      end
       block.call
     end
 
@@ -17,7 +20,6 @@ module ContentManager
 
     def content_instance(name=nil)
       #TODO:  defaults to verrsion 0, need to allow specifying default
-      puts content_class(name)
       @content_instance = content_class(name).new(version: 0)
     end
 

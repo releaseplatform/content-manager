@@ -5,13 +5,12 @@ module ContentManager
       content_instance.public_send(key.to_sym)
     end
 
-    def content_view(key, &block)
+    def content_view(view_name, &block)
       # pretend to be a rails controller
-      Class.new {
-        extend ApplicationHelper
-        define_method(:content_name) { key.to_s }
-        define_singleton_method(:controller) { self.new }
-      }.instance_eval(&block)
+      block.binding.local_variable_set(:cm, lambda { |key|
+        content_instance(view_name).public_send(key.to_sym) 
+      })
+      block.call
     end
 
     private

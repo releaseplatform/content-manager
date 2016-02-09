@@ -5,8 +5,8 @@ class Proxy
     @delegate = delegate
     yield self unless block.nil?
   end
-  def method_missing(op, *args, &block)
-    @delegate.send(op, *args, &block) 
+  def method_missing(*args, &block)
+    @delegate.send(*args, &block) 
   end
 end
 
@@ -21,12 +21,12 @@ module ContentManager
       # scope a block to a content view via a proxy view
       template = block.binding.eval('self')
       proxy = Proxy.new(template) do |proxy|
+        proxy.instance_variable_set(:@output_buffer, template.output_buffer)
         proxy.define_singleton_method(:cm) do |key|
           content_instance(view_name.to_s).public_send(key.to_sym)
         end
       end
-      # return a template
-      template.concat(proxy.instance_eval(&block))
+      proxy.instance_eval(&block)
     end
 
     private

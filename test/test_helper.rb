@@ -20,7 +20,6 @@ if ActiveSupport::TestCase.respond_to?(:fixture_path=)
   ActiveSupport::TestCase.fixtures :all
 end
 
-
 def contents(sym=nil)
   if sym
     return content_manager_contents(sym.to_sym)

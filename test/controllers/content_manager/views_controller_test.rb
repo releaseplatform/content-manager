@@ -16,13 +16,5 @@ module ContentManager
       get :edit, id: views(:one)
       assert_equal assigns(:view), views(:one)
     end
-
-    def views(sym=nil)
-      if sym
-        return content_manager_views(sym.to_sym)
-      else
-        View.all
-      end
-    end
   end
 end

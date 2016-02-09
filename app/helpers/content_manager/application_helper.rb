@@ -21,9 +21,13 @@ module ContentManager
       # scope a block to a content view via a proxy view
       template = block.binding.eval('self')
       proxy = Proxy.new(template) do |proxy|
-        proxy.instance_variable_set(:@output_buffer, template.output_buffer)
+        content = content_instance(view_name.to_s)
+
+        template.instance_variables.each do |key|
+          proxy.instance_variable_set(key, template.instance_variable_get(key))
+        end
         proxy.define_singleton_method(:cm) do |key|
-          content_instance(view_name.to_s).public_send(key.to_sym)
+          content.public_send(key.to_sym)
         end
       end
       proxy.instance_eval(&block)

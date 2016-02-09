@@ -31,6 +31,10 @@ module ContentManager
     end
 
     def initialize(options)
+      # rails doesn't always call the inherited callback
+      if !current_view
+        self.class.superclass.inherited(self.class)
+      end
       @version = options[:version]
     end
 
@@ -39,7 +43,7 @@ module ContentManager
     end
 
     def self.current_view
-      View.find_by!(constant_name: self.name)
+      ContentManager::View.find_by(constant_name: self.name)
     end
     
     def current_view

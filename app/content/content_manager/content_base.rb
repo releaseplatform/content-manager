@@ -30,6 +30,20 @@ module ContentManager
       current_view.update(name: name.to_s)
     end
 
+    # Why do I just have getter and setter here?!
+    def self.view_templates(templates)
+      @available_templates = templates
+    end
+
+    def self.available_templates
+      @available_templates
+    end
+
+    def self.active_template
+      # current view can be nil
+      current_view&.active_template || @available_templates.first
+    end
+
     def initialize(options)
       # rails doesn't always call the inherited callback
       if !current_view
@@ -43,6 +57,9 @@ module ContentManager
     end
 
     def self.current_view
+      # Should think about changing View -> Content and
+      # Content -> ContentVersion or even individually
+      # versioning the content_keys as views don't make sense.
       ContentManager::View.find_by(constant_name: self.name)
     end
     

@@ -21,6 +21,19 @@ module ContentManager
 
     def update
       @view = View.find(params[:id])
+      @view.update_attributes(view_params)
+      if @view.valid?
+        @view.save
+        redirect_to :back
+      else
+        redirect_to :back, alert: 'Invalid View'
+      end
+    end
+
+    private
+
+    def view_params
+      params.require(:view).permit(:active_template)
     end
   end
 end

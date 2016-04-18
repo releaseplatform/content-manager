@@ -1,4 +1,6 @@
 require "content_manager/engine"
+require 'content_manager/controller'
+require 'content_manager/class_resolution'
 
 module ContentManager
   # This is a method on the ::ApplicationController that will check if

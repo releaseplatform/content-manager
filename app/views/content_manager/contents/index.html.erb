@@ -1,6 +1,15 @@
 <h1><%= @view.name %></h1>
 
+<%= form_for @view do |f|%>
+  <%= f.label 'Active Template' do %>
+    <%= f.select :active_template, @content.class.available_templates || [] %>
+  <% end %>
+
+  <%= f.submit %>
+<% end %>
+
 <span><b><%= @content.keys_title %>:</b></span>
+
 <% @view.to_constant.content_keys.each do |key| %>
   <span><%= key %> </span>
 <% end %>

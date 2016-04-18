@@ -58,5 +58,25 @@ module ContentManager
 
       assert_equal NewTestContent.current_view.name, 'LandingPage'
     end
+
+    test 'provide a list of templates for a View Presenter (Content) and access them at run time' do
+      test_templates = ['landing_page1', 'landing_page2']
+
+      class TemplateTestContent < ContentBase
+        view_templates ['landing_page1', 'landing_page2']
+      end
+
+      assert_equal test_templates, TemplateTestContent.available_templates
+    end
+
+    test 'active template defaults to the first template available' do
+      active_template = 'landing_page1'
+
+      class TemplateTestContent < ContentBase
+        view_templates ['landing_page1', 'landing_page2']
+      end
+
+      assert_equal active_template, TemplateTestContent.active_template
+    end
   end
 end

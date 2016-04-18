@@ -36,34 +36,11 @@ module ContentManager
     private
 
     def content_instance(name=nil)
+      # Why not just use a function?
+      content_class = ClassResolution.content_class(name || constant_name)
+
       #TODO:  defaults to verrsion 0, need to allow specifying default
-      @content_instance = content_class(name).new(version: 0)
-    end
-
-    # TODO: This is hard, even rails does it wrong, need a better solution
-    def content_class(name=nil)
-      # ensure constant is loaded
-      name = name || constant_name
-      constant_class = name.classify
-      if Object.const_defined?(constant_class)
-        constant_class.constantize
-      elsif file_path = constant_file_path(name)
-        # This will not load class in module properly
-        require_dependency file_path
-        constant_class.constantize
-      else
-        begin
-          return "content_manager/#{name}".classify.constantize
-        rescue NameError
-          raise "Couldn't find constant definition #{name}, it should be in a file called #{name}.rb"
-        end
-      end
-    end
-
-    # needs to be limited to app and lib dir's because
-    # Heroku puts gem content in vendor
-    def constant_file_path(name=nil)
-      Dir["#{Rails.root}/{app,lib}/**/#{name || constant_name}.rb"].first
+      @content_instance = content_class.new(version: 0)
     end
 
     # the default for constants will be ControllerActionContent

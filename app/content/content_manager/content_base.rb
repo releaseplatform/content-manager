@@ -6,7 +6,22 @@ module ContentManager
         View.find_or_create_by!({
           constant_name: base.name 
         })
+
+        # this array needs to be configurable
+        views_path = ['app', 'views', view_path_for_content(base.name), '*.*'].flatten.select { |dir| dir != 'application' }
+        base.view_templates(Dir[Rails.root.join(*views_path)].map { |file_path|
+          # doesn't permit '.' in filenames
+          File.basename(file_path).split('.').first
+        })
       end
+    end
+
+    def self.view_path_for_content(name)
+      path = name.split('::').map { |constant_name|
+        constant_name.underscore
+      }
+      path[-1] = path[-1].split('_')[0]
+      return path
     end
 
     def self.content_keys
@@ -36,6 +51,9 @@ module ContentManager
     end
 
     def self.available_templates
+      puts '*' * 20
+      puts @available_templates
+      puts '*' * 20
       @available_templates
     end
 

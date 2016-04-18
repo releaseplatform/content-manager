@@ -2,11 +2,7 @@ module ContentManager
   module ClassResolution
 
     def self.content_class(name)
-      begin
-        content_class_name(name).constantize
-      rescue NameError
-        raise "Couldn't find constant definition #{name}, it should be in a file called #{name}.rb"
-      end
+      content_class_name(name).constantize
     end
 
     def self.content_class_name(class_name)
@@ -18,7 +14,13 @@ module ContentManager
         require file_path
         return klass
       else
-        return "content_manager/#{class_name}".classify
+        cm_class_name = "content_manager/#{class_name}".classify
+        begin
+          cm_class_name.constantize
+          return cm_class_name
+        rescue NameError
+          raise "Couldn't find constant definition #{name}, it should be in a file called #{name}.rb"
+        end
       end
     end
 

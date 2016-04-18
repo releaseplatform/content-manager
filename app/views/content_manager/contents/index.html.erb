@@ -2,7 +2,7 @@
 
 <%= form_for @view do |f|%>
   <%= f.label 'Active Template' do %>
-    <%= f.select :active_template, @content.class.available_templates || [] %>
+    <%= f.select :active_template, @view.to_constant.available_templates || [] %>
   <% end %>
 
   <%= f.submit %>

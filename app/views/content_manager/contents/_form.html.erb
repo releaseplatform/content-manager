@@ -9,7 +9,6 @@
   <br>
 
   <fieldset>
-    <legend><%= cm :form_legend %></legend>
     <div>
       <%= f.fields_for :data do |d|%>
         <% @view.to_constant.content_keys.each do |key| %>

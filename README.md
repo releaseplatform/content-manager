@@ -18,7 +18,11 @@ Templates are HTML documents. The realationship between a URL and a Temaplate (t
 
 Should you need to have your templates configurable (for A/B Testing or User configurable views) then there are a number of ways content_manager can help.
 
-1. **Hardcoded Templates:**
+1. **Not at all**
+
+    content_mamager does not need to take care of your templates if you don't want it to! Just use the existing templating system that your framework / language uses.
+
+2. **Hardcoded Templates:**
 
     At it's most simple, configurable templates can be one of a set of hardcoded templates. The way you achieve this with content_manager is to make a directory where your view used to be:
     
@@ -36,7 +40,7 @@ Should you need to have your templates configurable (for A/B Testing or User con
     
      `<content_manager_root>/views/:view_id`
     
-2. **Dynamic Templates**
+3. **Dynamic Templates**
     
     These are templates that can be edited without re-deploying the codebase. content_manager does not currently support them but should be requested / get enough support then they will be implemented.
     

@@ -8,10 +8,14 @@ module ContentManager
         })
 
         # this array needs to be configurable
-        views_path = ['app', 'views', view_path_for_content(base.name), '*.*'].flatten.select { |dir| dir != 'application' }
+        relative_view_templates_path = view_path_for_content(base.name)
+        views_path = ['app', 'views', relative_view_templates_path, '*.*'].flatten.select { |dir| dir != 'application' }
         base.view_templates(Dir[Rails.root.join(*views_path)].map { |file_path|
           # doesn't permit '.' in filenames
-          File.basename(file_path).split('.').first
+          File.join(
+            relative_view_templates_path,
+            File.basename(file_path).split('.').first
+          )
         })
       end
     end

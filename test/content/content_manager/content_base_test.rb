@@ -78,5 +78,9 @@ module ContentManager
 
       assert_equal active_template, TemplateTestContent.active_template
     end
+
+    test 'can get path for views from content constant name' do
+      assert_equal 'controller/action', ContentBase.view_path_for_content('ControllerActionContent')
+    end
   end
 end

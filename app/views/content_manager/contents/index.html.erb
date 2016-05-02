@@ -1,11 +1,13 @@
 <h1><%= @view.name %></h1>
 
-<%= form_for @view do |f|%>
-  <%= f.label 'Active Template' do %>
-    <%= f.select :active_template, @view.to_constant.available_templates || [] %>
-  <% end %>
+<% if @view.to_constant.available_templates.size > 0 %>
+  <%= form_for @view do |f|%>
+    <%= f.label 'Active Template' do %>
+      <%= f.select :active_template, @view.to_constant.available_templates || [] %>
+    <% end %>
 
-  <%= f.submit %>
+    <%= f.submit %>
+  <% end %>
 <% end %>
 
 <span><b><%= @content.keys_title %>:</b></span>

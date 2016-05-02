@@ -18,10 +18,9 @@ module ContentManager
 
     def self.view_path_for_content(name)
       path = name.split('::').map { |constant_name|
-        constant_name.underscore
+        constant_name.underscore.sub('_content','')
       }
-      path[-1] = path[-1].split('_')[0]
-      return path
+      return File.join(*path[-1].split('_'))
     end
 
     def self.content_keys
@@ -51,9 +50,6 @@ module ContentManager
     end
 
     def self.available_templates
-      puts '*' * 20
-      puts @available_templates
-      puts '*' * 20
       @available_templates
     end
 

@@ -11,7 +11,7 @@ module ContentManager
       if Object.const_defined?(klass)
         return klass
       elsif file_path = rails_constant_file_path(class_name)
-        require file_path
+        require_relative file_path
         return klass
       else
         cm_class_name = "content_manager/#{class_name}".classify
